@@ -17,13 +17,13 @@ all: ${NAME}
 ${NAME}: ${OBJS}
 	make -C lib
 	cc ${W} $^ lib/libft.a -o $@
-	cc ${W} $^ fprintf/libftprintf.a -o $@
+#cc ${W} $^ ft_fprintf/libftprintf.a -o $@
 
 %.o : %.c ${HEADER}
 	${CC} ${W} $< -o $@
 
 clean : 
-	${RM} ${OBJS} libtool/*.o
+	${RM} ${OBJS} lib/*.o
 fclean : clean
 	${RM} ${NAME}
 re : fclean all
