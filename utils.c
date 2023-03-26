@@ -1,5 +1,11 @@
 #include"pipex.h"
 
+int err_msg(void)
+{
+	perror("ATTENTION :");
+	return(errno);
+}
+
 void	execute_dashit(char **env,char *cmd)
 {
 	char	*path;
@@ -9,11 +15,9 @@ void	execute_dashit(char **env,char *cmd)
 	i = 0;
 	cmd1 = ft_split(cmd,' ');
 	path = path_func(env,cmd1);
+	printf("%s\n", path);
 	if (!*path)
-	{
-		ft_printf(STDERR_FILENO,"%s",strerror(err_msg()));
 		exit(err_msg());
-	}
 	if (execve(path,cmd1,env) < 0)
 		exit (err_msg());
 }
@@ -21,22 +25,33 @@ void	execute_dashit(char **env,char *cmd)
 char *path_func(char **env,char **cmd)
 {
 	char	**path;
+	char	*path_tmp = NULL;
 	char	*pcmd;
 	int		i;
 
-	i = 0;
-	while(ft_memcmp(*env,"PATH",4))
-		env++;
-	path = ft_split(*env + 5 , ':');
-	pcmd = ft_strjoin("/",cmd[0]);
-	while (path[i++])
+	path = NULL;if (ft_strchr(*cmd, '/'))
+		if (access(*cmd, X_OK) == 0)
+			return (*cmd);
+	while(env && *env)
 	{
-		path = ft_strjoin(path[i],cmd);
-		if (access(path,X_OK) < 0)
-		{
-			free(path);
-			exit(err_msg());
-		}
+		if (ft_memcmp(*env,"PATH=", 5) == 0)
+			path = ft_split(*env + 5, ':');
+		env++;
 	}
-	return (path);
+	if (!path)
+		err_msg();
+	i = 0;
+	while (path[i])
+	{
+		pcmd = ft_strjoin(path[i],"/");
+		path_tmp = ft_strjoin(pcmd,cmd[0]);
+		free(pcmd);
+		if (access(path_tmp,X_OK) == 0)
+			break;
+		free(path_tmp);
+		i++;
+	    exit(err_msg());
+	}
+	printf("pathtmp = %s\n",path_tmp);
+	return (path_tmp);
 }

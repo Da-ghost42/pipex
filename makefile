@@ -1,29 +1,36 @@
-SRCS = process.c utils.c
+SRC = process.c utils.c main.c
 
-OBJS = ${SRCS:.C=.O}
+OBJS = ${SRC:.c=.o}
 
 NAME = pipex
 
 HEADER = pipex.h
 
+LIB = lib/libft.a
+
+PRINTOOL = ft_fprintf/libftprintf.a
+
 RM = rm -rf
 
 CC = cc
 
-W = Wall Wextra Werror -c 
+W = -Wall -Wextra -Werror
 
 all: ${NAME}
 
 ${NAME}: ${OBJS}
 	make -C lib
-	cc ${W} $^ lib/libft.a -o $@
+	${CC} ${W} ${OBJS} ${LIB} -o ${NAME}
 #cc ${W} $^ ft_fprintf/libftprintf.a -o $@
 
 %.o : %.c ${HEADER}
-	${CC} ${W} $< -o $@
+	${CC} ${W} -c $< -o $@
+
 
 clean : 
-	${RM} ${OBJS} lib/*.o
+	make clean -C lib
+	${RM} ${OBJS}
 fclean : clean
+	make fclean -C lib
 	${RM} ${NAME}
 re : fclean all
