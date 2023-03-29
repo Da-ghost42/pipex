@@ -11,5 +11,6 @@ void	execute_dashit(char **env,char *cmd);
 char    *path_func(char **env,char **cmd);
 void    child_proc(char **av, char **env, int *fd);
 void    parent_proc(char **av,char **env, int *fd);
-int err_msg(void);
+void	execute_dashit_prime(char **env,char *cmd);
+int err_msg(char *str);
 #endif

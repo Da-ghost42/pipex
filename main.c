@@ -23,7 +23,7 @@ int main (int ac,char **av,char **env)
 		/*the pipe taking fd as an argument and it return -1 in case of error
 		so the pipe here will be a way of communication between child proc 
 		and parent proc */
-			exit (err_msg());
+			exit (err_msg("problem while piping"));
 		id = fork();
 		/*we need to execute two commands so we need two process to 
 		do that the main reason why we use fork(),
@@ -36,5 +36,5 @@ int main (int ac,char **av,char **env)
 		wait(NULL);
 		parent_proc(av,env,fd);
 	}
-	 write(1,"wrong arguments mumber[1]\n",27);
+	exit(err_msg("bad arguments number"));
 }

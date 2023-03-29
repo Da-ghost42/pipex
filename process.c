@@ -6,7 +6,7 @@ void child_proc(char **av, char **env, int *fd)
 
 	infile = open(av[1],O_RDONLY);
 	if (infile < 0)
-		exit(err_msg());
+		exit(err_msg("cannot open the infile :"));
 	dup2(infile,STDIN_FILENO);
 	dup2(fd[1],STDOUT_FILENO);
 	close(fd[0]);
@@ -20,7 +20,7 @@ void	parent_proc(char **av,char **env,int *fd)
 
 	outfile = open(av[4], O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (outfile < 0)
-		exit (err_msg());
+		exit (err_msg("cannot open the outfile :"));
 	dup2(fd[0],STDIN_FILENO);
 	dup2(outfile,STDOUT_FILENO);
 	close(fd[1]);

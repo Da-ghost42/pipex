@@ -1,8 +1,8 @@
 #include"pipex.h"
 
-int err_msg(void)
+int err_msg(char *str)
 {
-	perror("ATTENTION :");
+	perror(str);
 	return(errno);
 }
 
@@ -17,9 +17,9 @@ void	execute_dashit(char **env,char *cmd)
 	path = path_func(env,cmd1);
 	printf("%s\n", path);
 	if (!*path)
-		exit(err_msg());
+		exit(err_msg("error finding the path :"));
 	if (execve(path,cmd1,env) < 0)
-		exit (err_msg());
+		exit (err_msg("execve :"));
 }
 
 char *path_func(char **env,char **cmd)
@@ -29,7 +29,8 @@ char *path_func(char **env,char **cmd)
 	char	*pcmd;
 	int		i;
 
-	path = NULL;if (ft_strchr(*cmd, '/'))
+	path = NULL;
+	if (ft_strchr(*cmd, '/'))
 		if (access(*cmd, X_OK) == 0)
 			return (*cmd);
 	while(env && *env)
@@ -39,7 +40,7 @@ char *path_func(char **env,char **cmd)
 		env++;
 	}
 	if (!path)
-		err_msg();
+		exit(err_msg("path"));
 	i = 0;
 	while (path[i])
 	{
@@ -50,8 +51,7 @@ char *path_func(char **env,char **cmd)
 			break;
 		free(path_tmp);
 		i++;
-	    exit(err_msg());
+	    exit(err_msg("the cmd is not valid :"));
 	}
-	printf("pathtmp = %s\n",path_tmp);
 	return (path_tmp);
 }
