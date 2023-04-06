@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mboutuil <mboutuil@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/02 14:43:00 by mboutuil          #+#    #+#             */
+/*   Updated: 2023/04/06 02:28:02 by mboutuil         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include"pipex.h"
 
 /*the mandatory talk about emplementing pipes 
@@ -33,7 +45,7 @@ int main (int ac,char **av,char **env)
 		to the second command*/
 		if (id == 0)
 			child_proc(av,env,fd);
-		wait(NULL);
+		wait (NULL);
 		parent_proc(av,env,fd);
 	}
 	exit(err_msg("bad arguments number"));
