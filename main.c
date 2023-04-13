@@ -6,7 +6,7 @@
 /*   By: mboutuil <mboutuil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 14:43:00 by mboutuil          #+#    #+#             */
-/*   Updated: 2023/04/06 02:28:02 by mboutuil         ###   ########.fr       */
+/*   Updated: 2023/04/12 01:56:04 by mboutuil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,29 +24,26 @@ the new process created named the child
 process it is an exact copy of main process (parent process)
 but with different file descriptors and process id and a block of memory 
 and that was exactly what we need in this project  */
-int main (int ac,char **av,char **env)
+int	main(int ac, char **av, char **env)
 {
 	int	fd[2];
 	int	id;
 
 	if (ac == 5)
 	{
+		if (!*env)
+			exit(err_msg("NO PATH! :"));
 		if (pipe(fd) < 0)
-		/*the pipe taking fd as an argument and it return -1 in case of error
-		so the pipe here will be a way of communication between child proc 
-		and parent proc */
-			exit (err_msg("problem while piping"));
+			exit (err_msg("Pipe"));
 		id = fork();
-		/*we need to execute two commands so we need two process to 
-		do that the main reason why we use fork(),
-		it returns the id of the current process{main process} and return 0 
-		if the current process running is child process,they're running at the same time 
-		and we need to execute the command 1 and redirect the output as input 
-		to the second command*/
 		if (id == 0)
-			child_proc(av,env,fd);
-		wait (NULL);
-		parent_proc(av,env,fd);
+			child_proc(av, env, fd);
+		else
+			wait(NULL);
+		parent_proc(av, env, fd);
 	}
-	exit(err_msg("bad arguments number"));
+	else 
+	ft_putstr_fd("PIPEX : bad arguments number",2);
+	exit (1);
+return (0);
 }
