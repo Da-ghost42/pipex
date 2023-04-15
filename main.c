@@ -6,7 +6,7 @@
 /*   By: mboutuil <mboutuil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 14:43:00 by mboutuil          #+#    #+#             */
-/*   Updated: 2023/04/12 01:56:04 by mboutuil         ###   ########.fr       */
+/*   Updated: 2023/04/15 14:56:36 by mboutuil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,10 @@ int	main(int ac, char **av, char **env)
 		id = fork();
 		if (id == 0)
 			child_proc(av, env, fd);
-		else
-			wait(NULL);
 		parent_proc(av, env, fd);
 	}
-	else 
-	ft_putstr_fd("PIPEX : bad arguments number",2);
+	else
+		ft_putstr_fd("PIPEX : bad arguments number", 2);
 	exit (1);
-return (0);
+	return (0);
 }

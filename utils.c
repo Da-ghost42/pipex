@@ -6,7 +6,7 @@
 /*   By: mboutuil <mboutuil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 14:44:15 by mboutuil          #+#    #+#             */
-/*   Updated: 2023/04/11 03:13:11 by mboutuil         ###   ########.fr       */
+/*   Updated: 2023/04/15 15:27:56 by mboutuil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,21 @@ int	err_msg(char *str)
 	return (errno);
 }
 
-void ft_free(char **point)
+void	ft_free(char **point)
 {
 	int	i;
 
 	i = 0;
-
 	while (point[i++])
 		free(point[i]);
 	free(point);
 }
+
 void	execute_dashit(char **env, char *cmd)
 {
 	char	*path;
 	char	**cmd1;
-	
+
 	cmd1 = ft_split(cmd, ' ');
 	path = path_func(env, cmd1);
 	if (!path)
@@ -43,6 +43,14 @@ void	execute_dashit(char **env, char *cmd)
 	}
 	if (execve(path, cmd1, env) < 0)
 		exit (err_msg("execve :"));
+}
+
+char	**return_path(char **env)
+{
+	while (env++ && *env)
+		if (ft_memcmp(*env, "PATH=", 5) == 0)
+			return (ft_split(*env + 5, ':'));
+	return (NULL);
 }
 
 char	*path_func(char **env, char **cmd)
@@ -56,9 +64,7 @@ char	*path_func(char **env, char **cmd)
 	path_tmp = NULL;
 	if (ft_strchr(*cmd, '/') && !access(*cmd, X_OK))
 		return (*cmd);
-	while (env++ && *env)
-		if (ft_memcmp(*env, "PATH=", 5) == 0)
-			path = ft_split(*env + 5, ':');
+	path = return_path(env);
 	if (!path)
 		exit (err_msg("path"));
 	i = 0;

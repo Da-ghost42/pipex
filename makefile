@@ -8,8 +8,6 @@ SRS_BONUS = pipex_bonus.c get/get_next_line.c \
 
 OBJ_BONUS = ${SRS_BONUS:.c=.o}
 
-NAME_BONUS = bonus
-
 NAME = pipex
 
 HEADER = pipex.h
@@ -32,25 +30,24 @@ ${NAME}: ${OBJS}
 	@make -C lib
 	@${CC} ${W} ${OPTION_FLAG} ${OBJS} ${LIB} -o ${NAME}
 	
-BONUS : ${NAME_BONUS}
-
-${NAME_BONUS} : ${OBJ_BONUS}
+bonus : ${OBJ_BONUS}
 	@echo "compiling..."
 	@make -C lib
-	@${CC} ${W} ${OPTION_FLAG} ${OBJ_BONUS} ${LIB} -o  ${NAME_BONUS}
+	@${CC} ${W} ${OPTION_FLAG} ${OBJ_BONUS} ${LIB} -o ${NAME}
 
 %.o : %.c ${HEADER}
 	@${CC} ${W} -c $< -o $@
 
-
 clean : 
 	@make clean -C lib
-	@${RM} ${OBJS}
+	@${RM} ${OBJS} ${OBJ_BONUS}
+
 fclean : clean
 	make fclean -C lib
-	${RM} ${NAME} ${NAME_BONUS} ${OBJ_BONUS}
+	${RM} ${NAME} 
+
 re : fclean all
 
-./PHONY : BONUS all
+.PHONY : all bonus re clean fclean
 
-./SILENT : re fclean clean all
+.SILENT : re fclean clean all

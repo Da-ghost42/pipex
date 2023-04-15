@@ -6,7 +6,7 @@
 /*   By: mboutuil <mboutuil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 14:43:36 by mboutuil          #+#    #+#             */
-/*   Updated: 2023/04/08 23:35:49 by mboutuil         ###   ########.fr       */
+/*   Updated: 2023/04/13 21:03:34 by mboutuil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,5 @@ char	*path_func(char **env, char **cmd);
 void	child_proc(char **av, char **env, int *fd);
 void	parent_proc(char **av, char **env, int *fd);
 int		err_msg(char *str);
-// void goto_herdoc(char *limt);
 
 #endif
